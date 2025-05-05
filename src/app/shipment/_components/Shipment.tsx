@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import { useFilePicker } from "use-file-picker";
 
 const trackingSchema = Yup.object({
     sender_name: Yup.string().required("Required"),
@@ -32,7 +33,48 @@ const trackingSchema = Yup.object({
     unit_value: Yup.number().typeError("Unit value must be a number").required("Required"),
 });
 
+type ShipmentFormValues = {
+    sender_name: string;
+    sender_contact_name: string;
+    sender_address: string;
+    sender_postal_code: string;
+    sender_city: string;
+    sender_other_info: string;
+    sender_email: string;
+    sender_phone: string;
+
+    receiver_name: string;
+    receiver_contact_name: string;
+    receiver_address: string;
+    receiver_postal_code: string;
+    receiver_city: string;
+    receiver_other_info: string;
+    receiver_email: string;
+    receiver_phone: string;
+
+    service_type: string;
+
+    weight: string;
+    date_shipped: string;
+    expected_delivery_date: string;
+    description: string;
+    quantity: string;
+    unit_value: string;
+};
+
+
 const Shipment = () => {
+
+    const [image, setImage] = useState(false);
+
+    const [imagePicker, { filesContent, plainFiles, clear }] = useFilePicker({
+        readAs: "DataURL",
+        accept: ["image/*", "pdf"],
+        multiple: false,
+        limitFilesConfig: { max: 1 },
+        maxFileSize: 1,
+    });
+
     return (
         <Formik
             initialValues={{
@@ -56,22 +98,69 @@ const Shipment = () => {
 
                 service_type: "",
 
-                weight: 0, // previously ""
+                weight: "", // previously ""
                 date_shipped: "", // string is fine, will be parsed to date
                 expected_delivery_date: "", // string is fine
                 description: "",
-                quantity: 1,
-                unit_value: 0, // previously ""
+                quantity: "",
+                unit_value: "", // previously ""
             }}
             validationSchema={trackingSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
+                //     try {
+
+                //         const formData = new FormData();
+
+                // // Append each key-value pair to formData
+                // Object.entries(values).forEach(([key, value]) => {
+                //     formData.append(key, value as any);
+                // });
+
+                // // Append image and tags to formData
+                // if (filesContent.length > 0) {
+                //     formData.append("images", plainFiles[0]);
+                // }
+
+
+                //         const response = await fetch("https://api.cargovetra.com/api/shipments", {
+                //             method: "POST",
+                //             headers: {
+                //                 "Content-Type": "application/json",
+                //             },
+                //             body: JSON.stringify(formData),
+                //         });
+
+                //         if (!response.ok) {
+                //             const errorData = await response.json();
+                //             throw new Error(errorData.message || "Failed to create shipment.");
+                //         }
+
+                //         const result = await response.json();
+                //         toast.success(`Shipment created successfully!`)
+                //         console.log("Response:", result);
+                //         resetForm();
+                //     } catch (error) {
+                //         console.error("Submission error:", error);
+                //         alert("An error occurred while creating the shipment.");
+                //     } finally {
+                //         setSubmitting(false);
+                //     }
                 try {
+                    const formData = new FormData();
+
+                    // Append each key-value pair to formData
+                    Object.entries(values).forEach(([key, value]) => {
+                        formData.append(key, value as any);
+                    });
+
+                    // Append image file if present
+                    if (plainFiles.length > 0) {
+                        formData.append("images", plainFiles[0]);
+                    }
+
                     const response = await fetch("https://api.cargovetra.com/api/shipments", {
                         method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(values),
+                        body: formData, // send FormData directly
                     });
 
                     if (!response.ok) {
@@ -80,7 +169,8 @@ const Shipment = () => {
                     }
 
                     const result = await response.json();
-                    toast.success(`Shipment created successfully!`)
+                    toast.success(`Shipment created successfully!`);
+                    clear()
                     console.log("Response:", result);
                     resetForm();
                 } catch (error) {
@@ -89,6 +179,7 @@ const Shipment = () => {
                 } finally {
                     setSubmitting(false);
                 }
+
             }}
         >
             {({ isSubmitting }) => (
@@ -162,6 +253,83 @@ const Shipment = () => {
                             <div>
                                 <Field type="date" name="expected_delivery_date" className="input" />
                                 <ErrorMessage name="expected_delivery_date" component="div" className="text-red-500 text-sm" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div className='mt-5'>
+                        <label htmlFor='' className='text-sm font-medium '>
+                            Upload Image
+                        </label>
+                        <div onClick={() => imagePicker()} className='w-full py-4 cursor-pointer rounded-lg shadow border border-gray-300 text-gray-500'>
+                            <div className='text-center'>
+                                {filesContent.length ? (
+                                    <>
+                                        {filesContent.map((file, index) => (
+                                            <div
+                                                className=' mb-10 flex justify-center'
+                                                key={index}
+                                            >
+                                                <img
+                                                    style={{
+                                                        width: "150px",
+                                                        height: "150px",
+                                                    }}
+                                                    className='max-w-sm '
+                                                    alt={file.name}
+                                                    src={file.content}
+                                                ></img>
+                                                <br />
+                                            </div>
+                                        ))}
+                                    </>
+                                ) : (
+                                    <>
+                                        {image ? (
+                                            <div className='flex justify-center'>
+                                                <img
+                                                    className='max-w-[150px] rounded-lg inline'
+                                                    src={
+                                                        ``
+                                                    }
+                                                // src={
+                                                // 	selectedEpisodeInfo.rss_details.picture_url
+                                                // }
+                                                ></img>
+                                            </div>
+                                        ) : (
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                fill='none'
+                                                viewBox='0 0 24 24'
+                                                strokeWidth={1.5}
+                                                stroke='currentColor'
+                                                className='w-32 inline'
+                                            >
+                                                <path
+                                                    strokeLinecap='round'
+                                                    strokeLinejoin='round'
+                                                    d='M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
+                                                />
+                                            </svg>
+                                        )}
+                                    </>
+                                )}
+                                <div className='text-xs text-black-100 mt-14 px-6'>
+                                    We recommend uploading an artwork of at least 1400x1400
+                                    pixels and maximum 1MB. We support jpg, png, gif and
+                                    tiff formats.
+                                </div>
+                                <div className='mt-4'>
+                                    <button
+                                        type='button'
+
+                                        className='bg-white rounded-full py-2 px-4 text-sm font-semibold text-black-100'
+                                    >
+                                        Upload image
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
