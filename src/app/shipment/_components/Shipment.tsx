@@ -4,6 +4,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useFilePicker } from "use-file-picker";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const trackingSchema = Yup.object({
     sender_name: Yup.string().required("Required"),
@@ -246,14 +248,39 @@ const Shipment = () => {
                                     <ErrorMessage name={name} component="div" className="text-red-500 text-sm" />
                                 </div>
                             ))}
-                            <div>
+                            {/* <div>
                                 <Field type="date" name="date_shipped" className="input" />
                                 <ErrorMessage name="date_shipped" component="div" className="text-red-500 text-sm" />
                             </div>
                             <div>
                                 <Field type="date" name="expected_delivery_date" className="input" />
                                 <ErrorMessage name="expected_delivery_date" component="div" className="text-red-500 text-sm" />
-                            </div>
+                            </div> */}
+                            <Field name="date_shipped">
+                                {({ field, form }: any) => (
+                                    <DatePicker
+                                        className="input"
+                                        selected={field.value ? new Date(field.value) : null}
+                                        onChange={(date) => form.setFieldValue(field.name, date)}
+                                        dateFormat="yyyy-MM-dd"
+                                        placeholderText="Date Shipped"
+                                    />
+                                )}
+                            </Field>
+                            <ErrorMessage name="date_shipped" component="div" className="text-red-500 text-sm" />
+
+                            <Field name="expected_delivery_date">
+                                {({ field, form }: any) => (
+                                    <DatePicker
+                                        className="input"
+                                        selected={field.value ? new Date(field.value) : null}
+                                        onChange={(date) => form.setFieldValue(field.name, date)}
+                                        dateFormat="yyyy-MM-dd"
+                                        placeholderText="Expected Delivery"
+                                    />
+                                )}
+                            </Field>
+                            <ErrorMessage name="expected_delivery_date" component="div" className="text-red-500 text-sm" />
                         </div>
                     </div>
 
