@@ -7,7 +7,7 @@ const HeroSection: React.FC = () => {
             {/* Left Section */}
             <div className="w-full md:w-1/2 text-center md:text-left">
                 <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
-                    Drive Your Business Forward with LogiHub
+                    Drive Your Business Forward with Cargovetra
                 </h1>
                 <p className="text-lg md:text-xl text-gray-700 mb-6">
                     Contrary to popular belief, Lorem Ipsum is not simply random text.
@@ -21,10 +21,10 @@ const HeroSection: React.FC = () => {
                     <li className="flex items-center gap-2"><BsPatchCheckFill className="text-red-600" /> Freight Forwarding</li>
                 </ul>
                 <a
-                    href="#"
+                    href="/track"
                     className="inline-block mt-6 bg-red-500 text-white text-lg font-semibold py-2 px-6 rounded-lg transition duration-300 hover:bg-red-600"
                 >
-                    Read More
+                    Track order
                 </a>
             </div>
 

@@ -11,7 +11,7 @@ const Navbar = () => {
     return (
         <nav className="bg-white shadow-md p-4">
             <div className="flex justify-between items-center">
-                <Link href="/" className="text-2xl font-bold text-red-600">CargoVetra Logistics</Link>
+                <Link href="/" className="lg:text-2xl text-xl font-bold text-red-600">CargoVetra</Link>
 
                 {/* Mobile menu toggle */}
                 <button className="lg:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>

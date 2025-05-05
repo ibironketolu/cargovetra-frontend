@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
 
 const Hero = () => {
@@ -10,10 +11,10 @@ const Hero = () => {
                     Trusted and Efficient Supply Chain Logistics
                 </h1>
                 <p className="text-lg md:text-2xl mt-4 text-center">We ensure the smooth flow of goods across the globe</p>
-                <button className="mt-6 bg-red-600 text-white py-2 px-6 rounded-full flex items-center gap-2 hover:bg-red-700">
-                    Read More
+                <Link href={`/track`} className="mt-6 bg-red-600 text-white py-2 px-6 rounded-full flex items-center gap-2 hover:bg-red-700">
+                    Track order
                     <FaArrowRight />
-                </button>
+                </Link>
             </div>
         </section>
     );

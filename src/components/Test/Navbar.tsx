@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
     return (
         <div className="bg-white shadow-sm px-4">
             <div className=" flex items-center justify-between py-2">
-                <Link href="/" className="text-2xl font-bold text-brand">LogiHub</Link>
+                <Link href="/" className="text-2xl font-bold text-brand">Cargovetra</Link>
 
                 <button className="lg:hidden flex items-center gap-1" onClick={() => setOpen(o => !o)}>
                     <Link href="/track" className="bg-transparent hover:bg-red-600 font-semibold md:text-base text-xs hover:text-white py-2 px-4 flex items-center">

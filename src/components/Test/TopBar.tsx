@@ -9,7 +9,7 @@ const TopBar: React.FC = () => (
             <div className="hidden sm:flex space-x-2">
                 <FaFacebookF /><FaTwitter /><FaLinkedinIn /><FaInstagram /><FaPinterestP />
             </div>
-            <div>Info@email.com</div>
+            <div>info@cargovetra.com</div>
         </div>
     </div>
 );

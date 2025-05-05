@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import truckImg from "@/public/hero-truck.jpg"; // place your hero image in /public
+import Link from "next/link";
 
 const services = [
     "Ocean Freight",
@@ -75,9 +76,9 @@ const Hero: React.FC = () => {
                     )}
                 </h1>
 
-                <button className="mt-16 bg-red-600 w-fit px-6 py-2 rounded-full inline-block text-white hover:bg-red-700 transition">
-                    Read More
-                </button>
+                <Link href={`/track`} className="mt-16 bg-red-600 w-fit px-6 py-2 rounded-full inline-block text-white hover:bg-red-700 transition">
+                    Track order
+                </Link >
 
                 <ul className="mt-12 flex space-x-8 text-xs font-medium uppercase">
                     {services.map((s, i) => (
