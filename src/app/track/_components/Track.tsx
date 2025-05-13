@@ -210,6 +210,7 @@ const TrackingPage = () => {
                                         <p className="text-gray-600 font-medium">{ele?.date}
                                             {/* <span className="text-xs ml-2">01:47:03 am</span> */}
                                         </p>
+                                        <p className="text-gray-600 font-medium">{ele?.location}</p>
                                         <p className={`text-sm text-green-600 ${ele?.status === "in_transit" ? " text-yellow-700" : ele?.status === "on_hold" ? " text-red-700" : ele?.status === "delivered" ? " text-green-700" : " text-gray-600"} capitalize font-semibold`}>{ele?.status.replace("_", " ")}</p>
                                         <p className="text-gray-500">{ele?.remark}</p>
                                     </div>
